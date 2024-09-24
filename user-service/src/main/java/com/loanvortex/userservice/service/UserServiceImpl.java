@@ -1,7 +1,7 @@
-package com.loanstorm.userservice.service;
+package com.loanvortex.userservice.service;
 
-import com.loanstorm.userservice.model.User;
-import com.loanstorm.userservice.repository.UserRepository;
+import com.loanvortex.userservice.model.User;
+import com.loanvortex.userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

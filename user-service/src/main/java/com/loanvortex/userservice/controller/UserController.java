@@ -1,7 +1,7 @@
-package com.loanstorm.userservice.controller;
+package com.loanvortex.userservice.controller;
 
-import com.loanstorm.userservice.model.User;
-import com.loanstorm.userservice.service.UserService;
+import com.loanvortex.userservice.model.User;
+import com.loanvortex.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

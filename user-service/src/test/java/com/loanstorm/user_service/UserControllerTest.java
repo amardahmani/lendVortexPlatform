@@ -1,8 +1,8 @@
 package com.loanstorm.user_service;
 
-import com.loanstorm.userservice.controller.UserController;
-import com.loanstorm.userservice.model.User;
-import com.loanstorm.userservice.service.UserService;
+import com.loanvortex.userservice.controller.UserController;
+import com.loanvortex.userservice.model.User;
+import com.loanvortex.userservice.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

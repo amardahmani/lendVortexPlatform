@@ -1,13 +1,13 @@
-package com.loanvortex.userservice;
+package com.lendvortex.loanservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UserServiceApplication {
+public class LoanServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(UserServiceApplication.class, args);
+		SpringApplication.run(LoanServiceApplication.class, args);
 	}
 
 }

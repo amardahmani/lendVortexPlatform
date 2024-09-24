@@ -1,6 +1,6 @@
-package com.loanstorm.userservice.service;
+package com.loanvortex.userservice.service;
 
-import com.loanstorm.userservice.model.User;
+import com.loanvortex.userservice.model.User;
 
 public interface UserService {
 

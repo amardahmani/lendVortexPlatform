@@ -1,4 +1,4 @@
-package com.loanstorm.userservice.model;
+package com.loanvortex.userservice.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

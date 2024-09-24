@@ -1,6 +1,6 @@
-package com.loanstorm.userservice.repository;
+package com.loanvortex.userservice.repository;
 
-import com.loanstorm.userservice.model.User;
+import com.loanvortex.userservice.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User,Long> {
