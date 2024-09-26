@@ -2,7 +2,7 @@ package com.lendvortex.loanservice.service.impl;
 
 import com.lendvortex.loanservice.dto.request.LoanOfferRequestDTO;
 import com.lendvortex.loanservice.dto.response.LoanOfferResponseDTO;
-import com.lendvortex.loanservice.entities.LoanOffer;
+import com.lendvortex.loanservice.entity.LoanOffer;
 import com.lendvortex.loanservice.mapper.LoanOfferMapper;
 import com.lendvortex.loanservice.repository.LoanOfferRepository;
 import com.lendvortex.loanservice.service.LoanOfferService;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;

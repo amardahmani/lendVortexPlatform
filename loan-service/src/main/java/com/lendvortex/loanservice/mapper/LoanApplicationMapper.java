@@ -3,7 +3,7 @@ package com.lendvortex.loanservice.mapper;
 import com.lendvortex.loanservice.dto.request.DirectLoanRequestDTO;
 import com.lendvortex.loanservice.dto.request.MarketplaceLoanApplicationRequestDTO;
 import com.lendvortex.loanservice.dto.response.LoanApplicationResponseDTO;
-import com.lendvortex.loanservice.entities.LoanApplication;
+import com.lendvortex.loanservice.entity.LoanApplication;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

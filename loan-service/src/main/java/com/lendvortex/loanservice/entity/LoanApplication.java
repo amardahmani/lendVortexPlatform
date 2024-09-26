@@ -1,4 +1,4 @@
-package com.lendvortex.loanservice.entities;
+package com.lendvortex.loanservice.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "loan_applications")

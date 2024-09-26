@@ -2,13 +2,12 @@ package com.lendvortex.loanservice.service.impl;
 
 import com.lendvortex.loanservice.dto.request.LoanRequestDTO;
 import com.lendvortex.loanservice.dto.response.LoanResponseDTO;
-import com.lendvortex.loanservice.entities.Loan;
+import com.lendvortex.loanservice.entity.Loan;
 import com.lendvortex.loanservice.mapper.LoanMapper;
 import com.lendvortex.loanservice.repository.LoanRepository;
 import com.lendvortex.loanservice.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.NoSuchElementException;

@@ -3,7 +3,7 @@ package com.lendvortex.loanservice.service.impl;
 import com.lendvortex.loanservice.dto.request.DirectLoanRequestDTO;
 import com.lendvortex.loanservice.dto.request.MarketplaceLoanApplicationRequestDTO;
 import com.lendvortex.loanservice.dto.response.LoanApplicationResponseDTO;
-import com.lendvortex.loanservice.entities.LoanApplication;
+import com.lendvortex.loanservice.entity.LoanApplication;
 import com.lendvortex.loanservice.mapper.LoanApplicationMapper;
 import com.lendvortex.loanservice.repository.LoanApplicationRepository;
 import com.lendvortex.loanservice.service.LoanApplicationService;

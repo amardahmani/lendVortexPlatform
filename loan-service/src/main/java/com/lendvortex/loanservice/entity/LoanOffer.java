@@ -1,4 +1,4 @@
-package com.lendvortex.loanservice.entities;
+package com.lendvortex.loanservice.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
