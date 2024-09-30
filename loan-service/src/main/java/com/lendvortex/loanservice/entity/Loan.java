@@ -29,6 +29,7 @@ public class Loan {
 
     private BigDecimal amount;
 
+
     private BigDecimal interestRate;
 
     private int termMonths;

@@ -18,8 +18,8 @@ public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, updatable = false)
-    private Long id;
+    @Column(name = "transaction_id", nullable = false, updatable = false)
+    private Long transactionId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "transaction_type", nullable = false)
