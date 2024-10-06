@@ -17,7 +17,7 @@ public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "card_id", columnDefinition = "UUID")
-    private UUID cardId;
+    private String cardId;
 
 
     @Column(name = "user_id", nullable = false)
