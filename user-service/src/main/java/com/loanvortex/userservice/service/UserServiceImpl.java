@@ -1,5 +1,8 @@
 package com.loanvortex.userservice.service;
 
+import com.loanvortex.userservice.dto.UserRequestDTO;
+import com.loanvortex.userservice.dto.UserResponseDTO;
+import com.loanvortex.userservice.mapper.UserMapper;
 import com.loanvortex.userservice.model.User;
 import com.loanvortex.userservice.repository.UserRepository;
 import com.stripe.exception.StripeException;
@@ -9,61 +12,80 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
-    public Iterable<User> getAllUsers() {
-        return userRepository.findAll();
+    public Iterable<UserResponseDTO> getAllUsers() {
+        // Convert Iterable<User> to List<UserResponseDTO>
+        return StreamSupport.stream(userRepository.findAll().spliterator(), false)
+                .map(userMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public User getUserById(long id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found with id " + id));
+    public UserResponseDTO getUserById(long id) {
+        // Convert User entity to UserResponseDTO
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id " + id));
+        return userMapper.toResponse(user);
     }
 
     @Override
-    public User saveUser(User user) {
-        Customer customer = null;
+    public UserResponseDTO saveUser(UserRequestDTO userRequestDTO) {
+        Customer customer;
         try {
-            customer = createCustomer(user);
+            customer = createCustomer(userRequestDTO);
         } catch (StripeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to create Stripe customer", e);
         }
-        user.setCustomerId(customer.getId());
-        return userRepository.save(user);
+
+        // Set Stripe customerId in the user request DTO
+        userRequestDTO.setCustomerId(customer.getId());
+
+        // Convert UserRequestDTO to User entity and save it
+        User user = userMapper.toEntity(userRequestDTO);
+        User savedUser = userRepository.save(user);
+
+        // Convert saved User entity to UserResponseDTO
+        return userMapper.toResponse(savedUser);
     }
 
     @Override
-    public User editUser(User user) {
-
-        Optional<User> existingUserOpt = userRepository.findById(user.getId());
+    public UserResponseDTO editUser(UserRequestDTO userRequestDTO,Long userId) {
+        Optional<User> existingUserOpt = userRepository.findById(userId);
 
         if (existingUserOpt.isPresent()) {
             User existingUser = existingUserOpt.get();
 
+            // Update the fields
+            existingUser.setUsername(userRequestDTO.getUsername());
+            existingUser.setEmail(userRequestDTO.getEmail());
+            existingUser.setRole(userRequestDTO.getRole());
+            existingUser.setPassword(userRequestDTO.getPassword()); // Handle encryption if needed
 
-            existingUser.setUsername(user.getUsername());
-            existingUser.setEmail(user.getEmail());
-            existingUser.setRole(user.getRole());
-            existingUser.setPassword(user.getPassword()); // Handle encryption here if needed
+            User updatedUser = userRepository.save(existingUser);
 
-
-            return userRepository.save(existingUser);
+            // Convert updated User entity to UserResponseDTO
+            return userMapper.toResponse(updatedUser);
         } else {
-            throw new RuntimeException("User not found with id " + user.getId());
+            throw new RuntimeException("User not found with id " + userId);
         }
     }
 
-    private Customer createCustomer(User user) throws StripeException {
-        CustomerCreateParams customerCreateParams = CustomerCreateParams
-                .builder()
-                .setEmail(user.getEmail())
+    private Customer createCustomer(UserRequestDTO userRequestDTO) throws StripeException {
+        // Create a Stripe customer using email from UserRequestDTO
+        CustomerCreateParams customerCreateParams = CustomerCreateParams.builder()
+                .setEmail(userRequestDTO.getEmail())
                 .build();
         return Customer.create(customerCreateParams);
     }

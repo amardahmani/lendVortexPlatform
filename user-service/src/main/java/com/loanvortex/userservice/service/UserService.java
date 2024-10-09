@@ -1,14 +1,16 @@
 package com.loanvortex.userservice.service;
 
+import com.loanvortex.userservice.dto.UserRequestDTO;
+import com.loanvortex.userservice.dto.UserResponseDTO;
 import com.loanvortex.userservice.model.User;
 
 public interface UserService {
 
-    Iterable<User> getAllUsers();
+    Iterable<UserResponseDTO> getAllUsers();
 
-    User getUserById(long id);
+    UserResponseDTO getUserById(long id);
 
-    User saveUser(User user);
+    UserResponseDTO saveUser(UserRequestDTO userRequestDTO);
 
-    User editUser(User user);
+    UserResponseDTO editUser(UserRequestDTO userRequestDTO,Long userId);
 }

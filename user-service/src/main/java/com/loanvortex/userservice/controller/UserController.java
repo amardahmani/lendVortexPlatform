@@ -1,6 +1,7 @@
 package com.loanvortex.userservice.controller;
 
-import com.loanvortex.userservice.model.User;
+import com.loanvortex.userservice.dto.UserRequestDTO;
+import com.loanvortex.userservice.dto.UserResponseDTO;
 import com.loanvortex.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/users")
+@RestController
+@RequestMapping("/api/v1/users/")
 public class UserController {
 
     @Autowired
@@ -17,16 +19,16 @@ public class UserController {
 
     // Get all users
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        Iterable<User> users = userService.getAllUsers();
-        return new ResponseEntity<>((List<User>) users, HttpStatus.OK);
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+        List<UserResponseDTO> users = (List<UserResponseDTO>) userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     // Get user by ID
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
         try {
-            User user = userService.getUserById(id);
+            UserResponseDTO user = userService.getUserById(id);
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -34,19 +36,19 @@ public class UserController {
     }
 
     // Create new user
-    @PostMapping("")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User savedUser = userService.saveUser(user);
+    @PostMapping
+    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO userRequestDTO) {
+        UserResponseDTO savedUser = userService.saveUser(userRequestDTO);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
     // Update user details
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserRequestDTO userRequestDTO) {
         try {
-            updatedUser.setId(id); // Ensure the ID matches
-            User user = userService.editUser(updatedUser);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+
+            UserResponseDTO updatedUser = userService.editUser(userRequestDTO,id);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
