@@ -36,6 +36,9 @@ public class User {
     @Column(nullable = true)
     private String lastName;
 
+    @Column(name = "customer_id")
+    private String customerId;
+
     @Column(nullable = false, updatable = false)
     private String createdAt;
 

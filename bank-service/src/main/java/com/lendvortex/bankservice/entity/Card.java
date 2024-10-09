@@ -23,6 +23,12 @@ public class Card {
     @Column(name = "user_id", nullable = false)
     private Long userId;  // Foreign key to the User entity
 
+    @Column(name = "customer_id")
+    private String customerId;
+
+    @Column(name = "card_number")
+    private String cardNumber;
+
     @Column(name = "last4", length = 4, nullable = false)
     private String last4;
 
@@ -39,6 +45,9 @@ public class Card {
     @Column(name = "country")
     private String country;
 
+    @Column(name = "is_default",nullable = false)
+    private boolean isDefault;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
@@ -51,6 +60,8 @@ public class Card {
         this.createdAt = now;
         this.updatedAt = now;
     }
+
+
 
     @PreUpdate
     public void preUpdate() {

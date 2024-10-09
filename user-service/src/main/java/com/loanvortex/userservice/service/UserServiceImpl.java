@@ -2,6 +2,9 @@ package com.loanvortex.userservice.service;
 
 import com.loanvortex.userservice.model.User;
 import com.loanvortex.userservice.repository.UserRepository;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Customer;
+import com.stripe.param.CustomerCreateParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,27 +29,42 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User saveUser(User user) {
+        Customer customer = null;
+        try {
+            customer = createCustomer(user);
+        } catch (StripeException e) {
+            throw new RuntimeException(e);
+        }
+        user.setCustomerId(customer.getId());
         return userRepository.save(user);
     }
 
     @Override
     public User editUser(User user) {
-        // Find the existing user by ID
+
         Optional<User> existingUserOpt = userRepository.findById(user.getId());
 
         if (existingUserOpt.isPresent()) {
             User existingUser = existingUserOpt.get();
 
-            // Update only the fields that need to be changed
+
             existingUser.setUsername(user.getUsername());
             existingUser.setEmail(user.getEmail());
             existingUser.setRole(user.getRole());
             existingUser.setPassword(user.getPassword()); // Handle encryption here if needed
 
-            // Save the updated user back to the repository
+
             return userRepository.save(existingUser);
         } else {
             throw new RuntimeException("User not found with id " + user.getId());
         }
+    }
+
+    private Customer createCustomer(User user) throws StripeException {
+        CustomerCreateParams customerCreateParams = CustomerCreateParams
+                .builder()
+                .setEmail(user.getEmail())
+                .build();
+        return Customer.create(customerCreateParams);
     }
 }

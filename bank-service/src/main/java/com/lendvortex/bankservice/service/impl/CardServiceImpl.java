@@ -6,6 +6,10 @@ import com.lendvortex.bankservice.entity.Card;
 import com.lendvortex.bankservice.mapper.CardMapper;
 import com.lendvortex.bankservice.repository.CardRepository;
 import com.lendvortex.bankservice.service.CardService;
+import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentMethod;
+import com.stripe.param.PaymentMethodAttachParams;
+import com.stripe.param.PaymentMethodCreateParams;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,5 +62,27 @@ public class CardServiceImpl implements CardService {
 
         return false;
 
+    }
+
+    private PaymentMethod createPaymentMethod(Card card) throws StripeException {
+        PaymentMethodCreateParams params = PaymentMethodCreateParams.builder()
+                .setType(PaymentMethodCreateParams.Type.CARD)
+                .setCard(PaymentMethodCreateParams.CardDetails.builder()
+                        .setNumber(card.getCardNumber())
+                        .setExpMonth((long) card.getExpirationMonth())
+                        .setExpYear((long) card.getExpirationYear())
+                        .setCvc(card.getLast4())
+                        .build())
+                .build();
+        return PaymentMethod.create(params);
+    }
+
+    private PaymentMethod attachPaymentMethod(String paymentMethodId,String customerId) throws StripeException {
+        PaymentMethodAttachParams attachParams = PaymentMethodAttachParams.builder()
+                .setCustomer(customerId)
+                .build();
+
+        PaymentMethod paymentMethod = PaymentMethod.retrieve(paymentMethodId);
+        return paymentMethod.attach(attachParams);
     }
 }
